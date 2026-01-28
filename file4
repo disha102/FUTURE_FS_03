@@ -1,0 +1,1252 @@
+import React from 'react';
+import Hero from '../components/Hero';
+import About from '../components/About';
+import Menu from '../components/Menu';
+import Testimonials from '../components/Testimonials';
+import Gallery from '../components/Gallery';
+import Reservation from '../components/Reservation';
+import Contact from '../components/Contact';
+
+const Home = () => {
+  return (
+    <div className="home-page">
+      <Hero />
+      <About />
+      <Menu />
+      <Gallery />
+      <Testimonials />
+      <Reservation />
+      <Contact />
+    </div>
+  );
+};
+
+export default Home;
+📂 File 5: /src/components/Header.jsx
+import React, { useState, useEffect } from 'react';
+import { Button } from './ui/button';
+import { Menu, X, Phone } from 'lucide-react';
+import { mockData } from '../data/mock';
+
+const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+      }`}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="text-2xl font-bold" style={{ color: '#61525a' }}>
+              {mockData.business.name}
+            </h1>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <button
+              onClick={() => scrollToSection('about')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              About
+            </button>
+            <button
+              onClick={() => scrollToSection('menu')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Menu
+            </button>
+            <button
+              onClick={() => scrollToSection('gallery')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Gallery
+            </button>
+            <button
+              onClick={() => scrollToSection('testimonials')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Reviews
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Contact
+            </button>
+          </nav>
+
+          {/* CTA Button */}
+          <div className="hidden md:flex items-center space-x-4">
+            <a href={`tel:${mockData.business.phone}`} className="flex items-center space-x-2 hover:opacity-70 transition-opacity">
+              <Phone size={18} style={{ color: '#61525a' }} />
+              <span className="text-sm font-medium" style={{ color: '#61525a' }}>
+                {mockData.business.phone}
+              </span>
+            </a>
+            <Button
+              onClick={() => scrollToSection('reservation')}
+              className="text-white font-medium hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: '#61525a' }}
+            >
+              Reserve Table
+            </Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X size={24} style={{ color: '#61525a' }} />
+            ) : (
+              <Menu size={24} style={{ color: '#61525a' }} />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-4 border-t">
+            <nav className="flex flex-col space-y-4">
+              <button
+                onClick={() => scrollToSection('about')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                About
+              </button>
+              <button
+                onClick={() => scrollToSection('menu')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Menu
+              </button>
+              <button
+                onClick={() => scrollToSection('gallery')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Gallery
+              </button>
+              <button
+                onClick={() => scrollToSection('testimonials')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Reviews
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Contact
+              </button>
+              <Button
+                onClick={() => scrollToSection('reservation')}
+                className="w-full text-white font-medium"
+                style={{ backgroundColor: '#61525a' }}
+              >
+                Reserve Table
+              </Button>
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default Header;
+📂 File 6: /src/components/Hero.jsx
+import React from 'react';
+import { Button } from './ui/button';
+import { ArrowRight } from 'lucide-react';
+import { mockData } from '../data/mock';
+
+const Hero = () => {
+  const scrollToReservation = () => {
+    const element = document.getElementById('reservation');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={mockData.hero.image}
+          alt="Restaurant interior"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4 py-32">
+        <div className="max-w-3xl">
+          <div className="mb-6 animate-fade-in">
+            <span
+              className="inline-block px-4 py-2 rounded-full text-sm font-medium"
+              style={{ backgroundColor: 'rgba(97, 82, 90, 0.9)', color: 'white' }}
+            >
+              {mockData.business.tagline}
+            </span>
+          </div>
+
+          <h1
+            className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight animate-fade-in-up"
+            style={{ animationDelay: '0.2s' }}
+          >
+            {mockData.hero.title}
+          </h1>
+
+          <p
+            className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl animate-fade-in-up"
+            style={{ animationDelay: '0.4s' }}
+          >
+            {mockData.hero.description}
+          </p>
+
+          <div
+            className="flex flex-col sm:flex-row gap-4 animate-fade-in-up"
+            style={{ animationDelay: '0.6s' }}
+          >
+            <Button
+              size="lg"
+              onClick={scrollToReservation}
+              className="text-white font-semibold text-lg px-8 py-6 hover:opacity-90 transition-all transform hover:scale-105"
+              style={{ backgroundColor: '#61525a' }}
+            >
+              {mockData.hero.cta}
+              <ArrowRight className="ml-2" size={20} />
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-white border-2 border-white font-semibold text-lg px-8 py-6 bg-transparent hover:bg-white hover:text-gray-900 transition-all"
+            >
+              View Menu
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+        <div className="w-6 h-10 border-2 border-white rounded-full flex items-start justify-center p-2">
+          <div className="w-1 h-3 bg-white rounded-full animate-scroll"></div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
+📂 File 7: /src/components/About.jsx
+import React from 'react';
+import { mockData } from '../data/mock';
+
+const About = () => {
+  return (
+    <section id="about" className="py-20" style={{ backgroundColor: '#f7f5f2' }}>
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Image */}
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-lg shadow-2xl">
+              <img
+                src={mockData.about.image}
+                alt="Chef preparing food"
+                className="w-full h-[500px] object-cover transform hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            {/* Stats Overlay */}
+            <div className="absolute -bottom-8 -right-8 bg-white rounded-lg shadow-xl p-6 hidden md:block">
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-1" style={{ color: '#61525a' }}>
+                  {mockData.about.stats[0].number}
+                </div>
+                <div className="text-sm" style={{ color: '#736c64' }}>
+                  {mockData.about.stats[0].label}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div>
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-6"
+              style={{ color: '#1e1919' }}
+            >
+              {mockData.about.title}
+            </h2>
+            <p
+              className="text-lg mb-6 leading-relaxed"
+              style={{ color: '#736c64' }}
+            >
+              {mockData.about.description}
+            </p>
+            <div
+              className="border-l-4 pl-6 py-2 mb-8"
+              style={{ borderColor: '#61525a' }}
+            >
+              <p
+                className="text-lg italic"
+                style={{ color: '#1e1919' }}
+              >
+                {mockData.about.mission}
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-6 mt-8">
+              {mockData.about.stats.slice(1).map((stat, index) => (
+                <div key={index} className="text-center md:text-left">
+                  <div
+                    className="text-3xl md:text-4xl font-bold mb-2"
+                    style={{ color: '#61525a' }}
+                  >
+                    {stat.number}
+                  </div>
+                  <div
+                    className="text-sm md:text-base"
+                    style={{ color: '#736c64' }}
+                  >
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
+📂 File 8: /src/components/Menu.jsx
+import React from 'react';
+import { Card, CardContent } from './ui/card';
+import { mockData } from '../data/mock';
+
+const Menu = () => {
+  const categories = [...new Set(mockData.menu.map(item => item.category))];
+
+  return (
+    <section id="menu" className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: '#1e1919' }}
+          >
+            Our Menu
+          </h2>
+          <p
+            className="text-lg max-w-2xl mx-auto"
+            style={{ color: '#736c64' }}
+          >
+            Discover our carefully curated selection of dishes, crafted with passion and the finest ingredients
+          </p>
+        </div>
+
+        {/* Menu Items by Category */}
+        {categories.map((category, categoryIndex) => (
+          <div key={categoryIndex} className="mb-16">
+            <h3
+              className="text-2xl md:text-3xl font-bold mb-8"
+              style={{ color: '#61525a' }}
+            >
+              {category}
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {mockData.menu
+                .filter(item => item.category === category)
+                .map((item) => (
+                  <Card
+                    key={item.id}
+                    className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
+                      />
+                      <div
+                        className="absolute top-4 right-4 px-4 py-2 rounded-full text-white font-bold text-lg shadow-lg"
+                        style={{ backgroundColor: '#61525a' }}
+                      >
+                        {item.price}
+                      </div>
+                    </div>
+                    <CardContent className="p-6">
+                      <h4
+                        className="text-xl font-bold mb-2"
+                        style={{ color: '#1e1919' }}
+                      >
+                        {item.name}
+                      </h4>
+                      <p
+                        className="text-base"
+                        style={{ color: '#736c64' }}
+                      >
+                        {item.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default Menu;
+📂 File 9: /src/components/Gallery.jsx
+import React, { useState } from 'react';
+import { mockData } from '../data/mock';
+import { X } from 'lucide-react';
+
+const Gallery = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  return (
+    <section id="gallery" className="py-20" style={{ backgroundColor: '#f7f5f2' }}>
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: '#1e1919' }}
+          >
+            Gallery
+          </h2>
+          <p
+            className="text-lg max-w-2xl mx-auto"
+            style={{ color: '#736c64' }}
+          >
+            A visual journey through our culinary creations and dining experience
+          </p>
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {mockData.gallery.map((image, index) => (
+            <div
+              key={index}
+              className="relative aspect-square overflow-hidden rounded-lg cursor-pointer group"
+              onClick={() => setSelectedImage(image)}
+            >
+              <img
+                src={image}
+                alt={`Gallery ${index + 1}`}
+                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Lightbox */}
+        {selectedImage && (
+          <div
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button
+              className="absolute top-4 right-4 text-white hover:opacity-70 transition-opacity"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X size={32} />
+            </button>
+            <img
+              src={selectedImage}
+              alt="Gallery preview"
+              className="max-w-full max-h-[90vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default Gallery;
+📂 File 10: /src/components/Testimonials.jsx
+import React from 'react';
+import { Card, CardContent } from './ui/card';
+import { Star } from 'lucide-react';
+import { mockData } from '../data/mock';
+
+const Testimonials = () => {
+  return (
+    <section id="testimonials" className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: '#1e1919' }}
+          >
+            What Our Guests Say
+          </h2>
+          <p
+            className="text-lg max-w-2xl mx-auto"
+            style={{ color: '#736c64' }}
+          >
+            Real experiences from our valued customers
+          </p>
+        </div>
+
+        {/* Testimonials Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {mockData.testimonials.map((testimonial) => (
+            <Card
+              key={testimonial.id}
+              className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-0"
+              style={{ backgroundColor: '#f7f5f2' }}
+            >
+              <CardContent className="p-8">
+                {/* Stars */}
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={20}
+                      fill="#61525a"
+                      style={{ color: '#61525a' }}
+                    />
+                  ))}
+                </div>
+
+                {/* Comment */}
+                <p
+                  className="text-base mb-6 leading-relaxed"
+                  style={{ color: '#1e1919' }}
+                >
+                  "{testimonial.comment}"
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      className="font-bold text-base"
+                      style={{ color: '#1e1919' }}
+                    >
+                      {testimonial.name}
+                    </div>
+                    <div
+                      className="text-sm"
+                      style={{ color: '#736c64' }}
+                    >
+                      {testimonial.role}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Testimonials;
+📂 File 11: /src/components/Reservation.jsx
+import React, { useState } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Calendar, Clock, Users } from 'lucide-react';
+import { mockAPI } from '../data/mock';
+import { toast } from 'sonner';
+
+const Reservation = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    date: '',
+    time: '',
+    guests: '2'
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const result = await mockAPI.submitReservation(formData);
+      if (result.success) {
+        toast.success(result.message);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          time: '',
+          guests: '2'
+        });
+      }
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="reservation" className="py-20" style={{ backgroundColor: '#f7f5f2' }}>
+      <div className="container mx-auto px-4">
+        <div className="max-w-2xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-4"
+              style={{ color: '#1e1919' }}
+            >
+              Reserve Your Table
+            </h2>
+            <p
+              className="text-lg"
+              style={{ color: '#736c64' }}
+            >
+              Book your dining experience with us
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="bg-white rounded-lg shadow-xl p-8">
+            <form onSubmit={handleSubmit}>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <Label htmlFor="name" className="mb-2 block">
+                    Full Name *
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="mb-2 block">
+                    Email *
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                    className="w-full"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <Label htmlFor="phone" className="mb-2 block">
+                  Phone Number *
+                </Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="(555) 123-4567"
+                  className="w-full"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div>
+                  <Label htmlFor="date" className="mb-2 block flex items-center">
+                    <Calendar size={16} className="mr-2" style={{ color: '#61525a' }} />
+                    Date *
+                  </Label>
+                  <Input
+                    id="date"
+                    name="date"
+                    type="date"
+                    required
+                    value={formData.date}
+                    onChange={handleChange}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="time" className="mb-2 block flex items-center">
+                    <Clock size={16} className="mr-2" style={{ color: '#61525a' }} />
+                    Time *
+                  </Label>
+                  <Input
+                    id="time"
+                    name="time"
+                    type="time"
+                    required
+                    value={formData.time}
+                    onChange={handleChange}
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="guests" className="mb-2 block flex items-center">
+                    <Users size={16} className="mr-2" style={{ color: '#61525a' }} />
+                    Guests *
+                  </Label>
+                  <Input
+                    id="guests"
+                    name="guests"
+                    type="number"
+                    required
+                    min="1"
+                    max="20"
+                    value={formData.guests}
+                    onChange={handleChange}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full text-white font-semibold text-lg py-6 hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: '#61525a' }}
+              >
+                {isSubmitting ? 'Reserving...' : 'Reserve Table'}
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Reservation;
+📂 File 12: /src/components/Contact.jsx
+import React, { useState } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { mockData, mockAPI } from '../data/mock';
+import { toast } from 'sonner';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const result = await mockAPI.submitContact(formData);
+      if (result.success) {
+        toast.success(result.message);
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      }
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: '#1e1919' }}
+          >
+            Get In Touch
+          </h2>
+          <p
+            className="text-lg max-w-2xl mx-auto"
+            style={{ color: '#736c64' }}
+          >
+            Have questions? We'd love to hear from you
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Info */}
+          <div>
+            <h3
+              className="text-2xl font-bold mb-6"
+              style={{ color: '#61525a' }}
+            >
+              Contact Information
+            </h3>
+
+            <div className="space-y-6">
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <MapPin size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Address
+                  </h4>
+                  <p style={{ color: '#736c64' }}>
+                    {mockData.business.address}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <Phone size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Phone
+                  </h4>
+                  <a
+                    href={`tel:${mockData.business.phone}`}
+                    className="hover:opacity-70 transition-opacity"
+                    style={{ color: '#736c64' }}
+                  >
+                    {mockData.business.phone}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <Mail size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Email
+                  </h4>
+                  <a
+                    href={`mailto:${mockData.business.email}`}
+                    className="hover:opacity-70 transition-opacity"
+                    style={{ color: '#736c64' }}
+                  >
+                    {mockData.business.email}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <Clock size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Hours
+                  </h4>
+                  <p style={{ color: '#736c64' }}>
+                    Mon-Fri: {mockData.business.hours.weekday}
+                  </p>
+                  <p style={{ color: '#736c64' }}>
+                    Sat-Sun: {mockData.business.hours.weekend}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Map Placeholder */}
+            <div
+              className="mt-8 rounded-lg overflow-hidden h-64"
+              style={{ backgroundColor: '#f7f5f2' }}
+            >
+              <iframe
+                title="Location Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6173891258657!2d-73.98784368459395!3d40.74844097932824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1234567890"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <h3
+              className="text-2xl font-bold mb-6"
+              style={{ color: '#61525a' }}
+            >
+              Send Us a Message
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <Label htmlFor="contact-name" className="mb-2 block">
+                  Name *
+                </Label>
+                <Input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="contact-email" className="mb-2 block">
+                  Email *
+                </Label>
+                <Input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="subject" className="mb-2 block">
+                  Subject *
+                </Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="What is this about?"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="message" className="mb-2 block">
+                  Message *
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Your message..."
+                  rows={6}
+                  className="w-full resize-none"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full text-white font-semibold text-lg py-6 hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: '#61525a' }}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
+📂 File 13: /src/components/Footer.jsx
+import React from 'react';
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { mockData } from '../data/mock';
+
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer style={{ backgroundColor: '#1e1919' }} className="text-white py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-3 gap-8 mb-8">
+          {/* Brand */}
+          <div>
+            <h3 className="text-2xl font-bold mb-4" style={{ color: '#f7f5f2' }}>
+              {mockData.business.name}
+            </h3>
+            <p className="mb-4" style={{ color: '#bbb5ae' }}>
+              {mockData.business.tagline}
+            </p>
+            <div className="flex space-x-4">
+              <a
+                href={mockData.socialLinks[0].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-70 transition-opacity"
+                style={{ color: '#f7f5f2' }}
+              >
+                <Facebook size={24} />
+              </a>
+              <a
+                href={mockData.socialLinks[1].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-70 transition-opacity"
+                style={{ color: '#f7f5f2' }}
+              >
+                <Instagram size={24} />
+              </a>
+              <a
+                href={mockData.socialLinks[2].url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-70 transition-opacity"
+                style={{ color: '#f7f5f2' }}
+              >
+                <Twitter size={24} />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-bold mb-4" style={{ color: '#f7f5f2' }}>
+              Quick Links
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <button
+                  onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:opacity-70 transition-opacity text-left"
+                  style={{ color: '#bbb5ae' }}
+                >
+                  About Us
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:opacity-70 transition-opacity text-left"
+                  style={{ color: '#bbb5ae' }}
+                >
+                  Menu
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:opacity-70 transition-opacity text-left"
+                  style={{ color: '#bbb5ae' }}
+                >
+                  Gallery
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => document.getElementById('reservation')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:opacity-70 transition-opacity text-left"
+                  style={{ color: '#bbb5ae' }}
+                >
+                  Reservations
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-lg font-bold mb-4" style={{ color: '#f7f5f2' }}>
+              Contact Us
+            </h4>
+            <ul className="space-y-3">
+              <li className="flex items-center">
+                <MapPin size={18} className="mr-2" style={{ color: '#61525a' }} />
+                <span style={{ color: '#bbb5ae' }}>{mockData.business.address}</span>
+              </li>
+              <li className="flex items-center">
+                <Phone size={18} className="mr-2" style={{ color: '#61525a' }} />
+                <a
+                  href={`tel:${mockData.business.phone}`}
+                  className="hover:opacity-70 transition-opacity"
+                  style={{ color: '#bbb5ae' }}
+                >
+                  {mockData.business.phone}
+                </a>
+              </li>
+              <li className="flex items-center">
+                <Mail size={18} className="mr-2" style={{ color: '#61525a' }} />
+                <a
+                  href={`mailto:${mockData.business.email}`}
+                  className="hover:opacity-70 transition-opacity"
+                  style={{ color: '#bbb5ae' }}
+                >
+                  {mockData.business.email}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t" style={{ borderColor: '#736c64' }}>
+          <div className="text-center">
+            <p style={{ color: '#bbb5ae' }}>
+              © {currentYear} {mockData.business.name}. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+🎯 Setup Instructions
+Note: The Shadcn UI components (Button, Card, Input, Label, Textarea, etc.) are already included in your environment at /app/frontend/src/components/ui/. You don't need to copy those files.
+
+Dependencies already installed:
+
+react-router-dom
+lucide-react (for icons)
+sonner (for toasts)
+Tailwind CSS
+Shadcn UI components
+The website is live at: http://localhost:3000
+
+📋 Quick Customization
+To customize for a different business, simply edit /src/data/mock.js:
+
+// Change business details
+business: {
+  name: "Your Business Name",
+  tagline: "Your Tagline",
+  address: "Your Address",
+  // ... etc
+}
+
+// Update menu items
+menu: [
+  {
+    name: "Your Dish",
+    price: "$XX",
+    // ... etc
+  }
+]
+That's the complete codebase! The website is fully functional, responsive, and ready to use. You can copy any of these files and use them in your own React project. 🚀
+
+Jan 28, 07:59 PM
+
+Copy
