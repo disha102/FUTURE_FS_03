@@ -1,0 +1,150 @@
+export const mockData = {
+  business: {
+    name: "Bella Vista Café",
+    tagline: "Where Every Meal Tells a Story",
+    address: "123 Main Street, Downtown",
+    phone: "(555) 123-4567",
+    email: "hello@bellavistacafe.com",
+    hours: {
+      weekday: "8:00 AM - 10:00 PM",
+      weekend: "9:00 AM - 11:00 PM"
+    }
+  },
+
+  hero: {
+    title: "Experience Culinary Excellence",
+    subtitle: "Where Every Meal Tells a Story",
+    description: "Discover a dining experience that combines exceptional cuisine, warm ambiance, and unforgettable moments.",
+    image: "https://images.unsplash.com/photo-1744776411255-3c427c203685",
+    cta: "Reserve Your Table"
+  },
+
+  about: {
+    title: "Our Story",
+    description: "Founded in 2018, Bella Vista Café has become a beloved destination for food enthusiasts seeking authentic flavors and memorable dining experiences. Our passionate team of chefs crafts each dish with locally-sourced ingredients and time-honored techniques.",
+    mission: "To create moments of joy through exceptional food, warm hospitality, and a welcoming atmosphere that brings our community together.",
+    image: "https://images.unsplash.com/photo-1681270543584-8e541a1bb056",
+    stats: [
+      { number: "5000+", label: "Happy Customers" },
+      { number: "200+", label: "Signature Dishes" },
+      { number: "15", label: "Expert Chefs" },
+      { number: "6", label: "Years of Excellence" }
+    ]
+  },
+
+  menu: [
+    {
+      id: 1,
+      category: "Signature Dishes",
+      name: "Truffle Risotto",
+      description: "Creamy arborio rice with black truffle, parmesan, and wild mushrooms",
+      price: "$28",
+      image: "https://images.unsplash.com/photo-1623073284788-0d846f75e329"
+    },
+    {
+      id: 2,
+      category: "Signature Dishes",
+      name: "Pan-Seared Salmon",
+      description: "Atlantic salmon with herb butter, seasonal vegetables, and lemon",
+      price: "$32",
+      image: "https://images.unsplash.com/photo-1541832676-9b763b0239ab"
+    },
+    {
+      id: 3,
+      category: "Signature Dishes",
+      name: "Gourmet Wine Pairing",
+      description: "Chef's selection paired with premium wines",
+      price: "$45",
+      image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0"
+    },
+    {
+      id: 4,
+      category: "Beverages",
+      name: "Artisan Coffee",
+      description: "Handcrafted espresso drinks with latte art",
+      price: "$5",
+      image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93"
+    },
+    {
+      id: 5,
+      category: "Beverages",
+      name: "Specialty Latte",
+      description: "House-blend coffee with your choice of flavor",
+      price: "$6",
+      image: "https://images.unsplash.com/photo-1511920170033-f8396924c348"
+    },
+    {
+      id: 6,
+      category: "Desserts",
+      name: "Chocolate Dream Cake",
+      description: "Layered chocolate cake with white chocolate drizzle",
+      price: "$12",
+      image: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b"
+    }
+  ],
+
+  testimonials: [
+    {
+      id: 1,
+      name: "Sarah Mitchell",
+      role: "Food Blogger",
+      comment: "Bella Vista Café exceeded all my expectations! The ambiance is perfect, and every dish is a masterpiece. The truffle risotto is absolutely divine!",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1592861956120-e524fc739696"
+    },
+    {
+      id: 2,
+      name: "Michael Chen",
+      role: "Regular Customer",
+      comment: "I've been coming here for three years, and the quality never disappoints. The staff treats you like family, and the chef's attention to detail is remarkable.",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf"
+    },
+    {
+      id: 3,
+      name: "Emma Rodriguez",
+      role: "Event Organizer",
+      comment: "We hosted our anniversary dinner here, and it was magical. The team went above and beyond to make our evening special. Highly recommend!",
+      rating: 5,
+      image: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17"
+    }
+  ],
+
+  gallery: [
+    "https://images.unsplash.com/photo-1744776411255-3c427c203685",
+    "https://images.unsplash.com/photo-1676471932681-45fa972d848a",
+    "https://images.pexels.com/photos/13369919/pexels-photo-13369919.jpeg",
+    "https://images.unsplash.com/photo-1623073284788-0d846f75e329",
+    "https://images.unsplash.com/photo-1541832676-9b763b0239ab",
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0",
+    "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
+    "https://images.unsplash.com/photo-1592861956120-e524fc739696"
+  ],
+
+  socialLinks: [
+    { platform: "facebook", url: "https://facebook.com/bellavistacafe" },
+    { platform: "instagram", url: "https://instagram.com/bellavistacafe" },
+    { platform: "twitter", url: "https://twitter.com/bellavistacafe" }
+  ]
+};
+
+// Mock API functions
+export const mockAPI = {
+  submitReservation: (data) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Reservation submitted:", data);
+        resolve({ success: true, message: "Reservation confirmed!" });
+      }, 1000);
+    });
+  },
+
+  submitContact: (data) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Contact form submitted:", data);
+        resolve({ success: true, message: "Thank you! We'll get back to you soon." });
+      }, 1000);
+    });
+  }
+};
