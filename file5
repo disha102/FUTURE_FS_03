@@ -1,0 +1,164 @@
+import React, { useState, useEffect } from 'react';
+import { Button } from './ui/button';
+import { Menu, X, Phone } from 'lucide-react';
+import { mockData } from '../data/mock';
+
+const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+      }`}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="text-2xl font-bold" style={{ color: '#61525a' }}>
+              {mockData.business.name}
+            </h1>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <button
+              onClick={() => scrollToSection('about')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              About
+            </button>
+            <button
+              onClick={() => scrollToSection('menu')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Menu
+            </button>
+            <button
+              onClick={() => scrollToSection('gallery')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Gallery
+            </button>
+            <button
+              onClick={() => scrollToSection('testimonials')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Reviews
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="text-base font-medium hover:opacity-70 transition-opacity"
+              style={{ color: '#1e1919' }}
+            >
+              Contact
+            </button>
+          </nav>
+
+          {/* CTA Button */}
+          <div className="hidden md:flex items-center space-x-4">
+            <a href={`tel:${mockData.business.phone}`} className="flex items-center space-x-2 hover:opacity-70 transition-opacity">
+              <Phone size={18} style={{ color: '#61525a' }} />
+              <span className="text-sm font-medium" style={{ color: '#61525a' }}>
+                {mockData.business.phone}
+              </span>
+            </a>
+            <Button
+              onClick={() => scrollToSection('reservation')}
+              className="text-white font-medium hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: '#61525a' }}
+            >
+              Reserve Table
+            </Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X size={24} style={{ color: '#61525a' }} />
+            ) : (
+              <Menu size={24} style={{ color: '#61525a' }} />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-4 border-t">
+            <nav className="flex flex-col space-y-4">
+              <button
+                onClick={() => scrollToSection('about')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                About
+              </button>
+              <button
+                onClick={() => scrollToSection('menu')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Menu
+              </button>
+              <button
+                onClick={() => scrollToSection('gallery')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Gallery
+              </button>
+              <button
+                onClick={() => scrollToSection('testimonials')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Reviews
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="text-left text-base font-medium hover:opacity-70 transition-opacity"
+                style={{ color: '#1e1919' }}
+              >
+                Contact
+              </button>
+              <Button
+                onClick={() => scrollToSection('reservation')}
+                className="w-full text-white font-medium"
+                style={{ backgroundColor: '#61525a' }}
+              >
+                Reserve Table
+              </Button>
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default Header;
