@@ -1,0 +1,83 @@
+import React from 'react';
+import { mockData } from '../data/mock';
+
+const About = () => {
+  return (
+    <section id="about" className="py-20" style={{ backgroundColor: '#f7f5f2' }}>
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Image */}
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-lg shadow-2xl">
+              <img
+                src={mockData.about.image}
+                alt="Chef preparing food"
+                className="w-full h-[500px] object-cover transform hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            {/* Stats Overlay */}
+            <div className="absolute -bottom-8 -right-8 bg-white rounded-lg shadow-xl p-6 hidden md:block">
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-1" style={{ color: '#61525a' }}>
+                  {mockData.about.stats[0].number}
+                </div>
+                <div className="text-sm" style={{ color: '#736c64' }}>
+                  {mockData.about.stats[0].label}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div>
+            <h2
+              className="text-4xl md:text-5xl font-bold mb-6"
+              style={{ color: '#1e1919' }}
+            >
+              {mockData.about.title}
+            </h2>
+            <p
+              className="text-lg mb-6 leading-relaxed"
+              style={{ color: '#736c64' }}
+            >
+              {mockData.about.description}
+            </p>
+            <div
+              className="border-l-4 pl-6 py-2 mb-8"
+              style={{ borderColor: '#61525a' }}
+            >
+              <p
+                className="text-lg italic"
+                style={{ color: '#1e1919' }}
+              >
+                {mockData.about.mission}
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-6 mt-8">
+              {mockData.about.stats.slice(1).map((stat, index) => (
+                <div key={index} className="text-center md:text-left">
+                  <div
+                    className="text-3xl md:text-4xl font-bold mb-2"
+                    style={{ color: '#61525a' }}
+                  >
+                    {stat.number}
+                  </div>
+                  <div
+                    className="text-sm md:text-base"
+                    style={{ color: '#736c64' }}
+                  >
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
