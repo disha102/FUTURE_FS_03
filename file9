@@ -1,0 +1,70 @@
+import React, { useState } from 'react';
+import { mockData } from '../data/mock';
+import { X } from 'lucide-react';
+
+const Gallery = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  return (
+    <section id="gallery" className="py-20" style={{ backgroundColor: '#f7f5f2' }}>
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: '#1e1919' }}
+          >
+            Gallery
+          </h2>
+          <p
+            className="text-lg max-w-2xl mx-auto"
+            style={{ color: '#736c64' }}
+          >
+            A visual journey through our culinary creations and dining experience
+          </p>
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {mockData.gallery.map((image, index) => (
+            <div
+              key={index}
+              className="relative aspect-square overflow-hidden rounded-lg cursor-pointer group"
+              onClick={() => setSelectedImage(image)}
+            >
+              <img
+                src={image}
+                alt={`Gallery ${index + 1}`}
+                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Lightbox */}
+        {selectedImage && (
+          <div
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button
+              className="absolute top-4 right-4 text-white hover:opacity-70 transition-opacity"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X size={32} />
+            </button>
+            <img
+              src={selectedImage}
+              alt="Gallery preview"
+              className="max-w-full max-h-[90vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default Gallery;
