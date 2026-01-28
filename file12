@@ -1,0 +1,277 @@
+import React, { useState } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { mockData, mockAPI } from '../data/mock';
+import { toast } from 'sonner';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const result = await mockAPI.submitContact(formData);
+      if (result.success) {
+        toast.success(result.message);
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      }
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-4"
+            style={{ color: '#1e1919' }}
+          >
+            Get In Touch
+          </h2>
+          <p
+            className="text-lg max-w-2xl mx-auto"
+            style={{ color: '#736c64' }}
+          >
+            Have questions? We'd love to hear from you
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Info */}
+          <div>
+            <h3
+              className="text-2xl font-bold mb-6"
+              style={{ color: '#61525a' }}
+            >
+              Contact Information
+            </h3>
+
+            <div className="space-y-6">
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <MapPin size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Address
+                  </h4>
+                  <p style={{ color: '#736c64' }}>
+                    {mockData.business.address}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <Phone size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Phone
+                  </h4>
+                  <a
+                    href={`tel:${mockData.business.phone}`}
+                    className="hover:opacity-70 transition-opacity"
+                    style={{ color: '#736c64' }}
+                  >
+                    {mockData.business.phone}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <Mail size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Email
+                  </h4>
+                  <a
+                    href={`mailto:${mockData.business.email}`}
+                    className="hover:opacity-70 transition-opacity"
+                    style={{ color: '#736c64' }}
+                  >
+                    {mockData.business.email}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <div
+                  className="p-3 rounded-lg mr-4"
+                  style={{ backgroundColor: '#f7f5f2' }}
+                >
+                  <Clock size={24} style={{ color: '#61525a' }} />
+                </div>
+                <div>
+                  <h4
+                    className="font-bold mb-1"
+                    style={{ color: '#1e1919' }}
+                  >
+                    Hours
+                  </h4>
+                  <p style={{ color: '#736c64' }}>
+                    Mon-Fri: {mockData.business.hours.weekday}
+                  </p>
+                  <p style={{ color: '#736c64' }}>
+                    Sat-Sun: {mockData.business.hours.weekend}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Map Placeholder */}
+            <div
+              className="mt-8 rounded-lg overflow-hidden h-64"
+              style={{ backgroundColor: '#f7f5f2' }}
+            >
+              <iframe
+                title="Location Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6173891258657!2d-73.98784368459395!3d40.74844097932824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1234567890"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <h3
+              className="text-2xl font-bold mb-6"
+              style={{ color: '#61525a' }}
+            >
+              Send Us a Message
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <Label htmlFor="contact-name" className="mb-2 block">
+                  Name *
+                </Label>
+                <Input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="contact-email" className="mb-2 block">
+                  Email *
+                </Label>
+                <Input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="subject" className="mb-2 block">
+                  Subject *
+                </Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="What is this about?"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="message" className="mb-2 block">
+                  Message *
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  required
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Your message..."
+                  rows={6}
+                  className="w-full resize-none"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full text-white font-semibold text-lg py-6 hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: '#61525a' }}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
